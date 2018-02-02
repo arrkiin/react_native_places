@@ -1,39 +1,24 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import PlacesList from './src/components/PlacesList';
-import PlaceInput from './src/components/PlaceInput';
+import PlacesList from './src/components/PlacesList/PlacesList';
+import PlaceInput from './src/components/PlaceInput/PlaceInput';
 
 export default class App extends React.Component {
     state = {
-        placeName: '',
         places: []
     };
-    placeNameChangedHandler = value => {
-        this.setState({
-            placeName: value
-        });
-    };
-    placeSubmitHandler = () => {
-        if (this.state.placeName.trim() === '') {
-            return;
-        }
+    placeAddHandler = placeName => {
         this.setState(prevState => {
             return {
-                places: prevState.places.concat(prevState.placeName)
+                places: prevState.places.concat(placeName)
             };
         });
     };
     render() {
         return (
             <View style={styles.container}>
-                <PlaceInput
-                    placeName={this.state.placeName}
-                    onPlaceNameChanged={this.placeNameChangedHandler}
-                    onPlaceSubmit={this.placeSubmitHandler}
-                />
-                <View style={styles.listContainer}>
-                    <PlacesList places={this.state.places} />
-                </View>
+                <PlaceInput onPlaceAdded={this.placeAddHandler} />
+                <PlacesList places={this.state.places} />
             </View>
         );
     }
@@ -47,8 +32,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'flex-start'
-    },
-    listContainer: {
-        width: '100%'
     }
 });
