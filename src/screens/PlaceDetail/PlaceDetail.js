@@ -6,6 +6,7 @@ import {
     Button,
     StyleSheet,
     TouchableOpacity,
+    Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
@@ -29,7 +30,15 @@ class PlaceDetail extends Component {
                 <View>
                     <TouchableOpacity onPress={this.placeDeletedHandler}>
                         <View style={styles.deleteButton}>
-                            <Icon name="ios-trash" size={30} color="red" />
+                            <Icon
+                                name={
+                                    Platform.OS === 'android'
+                                        ? 'md-trash'
+                                        : 'ios-trash'
+                                }
+                                size={30}
+                                color="red"
+                            />
                         </View>
                     </TouchableOpacity>
                 </View>
