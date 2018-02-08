@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import PlaceList from '../../components/PlaceList/PlaceList';
 
 class FindPlaceScreen extends Component {
+    static navigatorStyle = {
+        navBarButtonColor: 'orange',
+    };
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -13,7 +16,7 @@ class FindPlaceScreen extends Component {
         if (event.type === 'NavBarButtonPress') {
             if (event.id === 'sideDrawerToggle') {
                 this.props.navigator.toggleDrawer({
-                    side: 'left'
+                    side: 'left',
                 });
             }
         }
@@ -26,8 +29,8 @@ class FindPlaceScreen extends Component {
             screen: 'awesome-places.PlaceDetailScreen',
             title: selPlace.name,
             passProps: {
-                selectedPlace: selPlace
-            }
+                selectedPlace: selPlace,
+            },
         });
     };
     render() {
@@ -44,7 +47,7 @@ class FindPlaceScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        places: state.places.places
+        places: state.places.places,
     };
 };
 
