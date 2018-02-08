@@ -5,13 +5,15 @@ import {
     Button,
     TextInput,
     StyleSheet,
-    ImageBackground
+    ImageBackground,
 } from 'react-native';
 
 import startMainTabs from '../MainTabs/startMainTabs';
 import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
 import HeadingText from '../../components/UI/HeadingText/HeadingText';
 import MainText from '../../components/UI/MainText/MainText';
+import ButtonWithBackground from '../../components/UI/ButtonWithBackground/ButtonWIthBackground';
+
 import backgroundImage from '../../assets/background.jpg';
 
 class AuthScreen extends Component {
@@ -28,7 +30,12 @@ class AuthScreen extends Component {
                     <MainText>
                         <HeadingText>Please Log In</HeadingText>
                     </MainText>
-                    <Button title="Switch to Login" />
+                    <ButtonWithBackground
+                        color="#29aaf4"
+                        onPress={() => alert('Login')}
+                    >
+                        Switch to Login
+                    </ButtonWithBackground>
                     <View style={styles.inputContainer}>
                         <DefaultInput
                             style={styles.input}
@@ -43,7 +50,12 @@ class AuthScreen extends Component {
                             placeholder="Confirm Password"
                         />
                     </View>
-                    <Button title="Submit" onPress={this.loginHandler} />
+                    <ButtonWithBackground
+                        color="#29aaf4"
+                        onPress={this.loginHandler}
+                    >
+                        Submit
+                    </ButtonWithBackground>
                 </View>
             </ImageBackground>
         );
@@ -54,19 +66,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     backgroundImage: {
         width: '100%',
-        flex: 1
+        flex: 1,
     },
     inputContainer: {
-        width: '80%'
+        width: '80%',
     },
     input: {
         backgroundColor: '#eee',
-        borderColor: '#bbb'
-    }
+        borderColor: '#bbb',
+    },
 });
 
 export default AuthScreen;
