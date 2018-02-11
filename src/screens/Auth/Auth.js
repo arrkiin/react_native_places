@@ -14,6 +14,7 @@ import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
 import HeadingText from '../../components/UI/HeadingText/HeadingText';
 import MainText from '../../components/UI/MainText/MainText';
 import ButtonWithBackground from '../../components/UI/ButtonWithBackground/ButtonWIthBackground';
+import validate from '../../utility/validation';
 
 import backgroundImage from '../../assets/background.jpg';
 
@@ -21,6 +22,33 @@ class AuthScreen extends Component {
     state = {
         viewMode:
             Dimensions.get('window').height > 500 ? 'portrait' : 'landscape',
+        controls: {
+            email: {
+                value: '',
+                valid: false,
+                validationRules: {
+                    isEmail: true,
+                },
+                touched: false,
+            },
+            password: {
+                value: '',
+                valid: false,
+                validationRules: {
+                    minLength: 6,
+                    equalTo: 'confirmPassword',
+                },
+                touched: false,
+            },
+            confirmPassword: {
+                value: '',
+                valid: false,
+                validationRules: {
+                    equalTo: 'password',
+                },
+                touched: false,
+            },
+        },
     };
     constructor(props) {
         super(props);
@@ -32,6 +60,37 @@ class AuthScreen extends Component {
     updateStyles = dims => {
         this.setState({
             viewMode: dims.window.height > 500 ? 'portrait' : 'landscape',
+        });
+    };
+    updateInputState = (key, value) => {
+        let connectedValue = {};
+        if (this.state.controls[key].validationRules.equalTo) {
+            const equalControl = this.state.controls[key].validationRules
+                .equalTo;
+            if (this.state.controls[equalControl].touched) {
+                const equalValue = this.state.controls[equalControl].value;
+                connectedValue = {
+                    ...connectedValue,
+                    equalTo: equalValue,
+                };
+            }
+        }
+        this.setState(prevState => {
+            return {
+                controls: {
+                    ...prevState.controls,
+                    [key]: {
+                        ...prevState.controls[key],
+                        value: value,
+                        valid: validate(
+                            value,
+                            prevState.controls[key].validationRules,
+                            connectedValue
+                        ),
+                        touched: true,
+                    },
+                },
+            };
         });
     };
     loginHandler = () => {
@@ -63,6 +122,10 @@ class AuthScreen extends Component {
                         <DefaultInput
                             style={styles.input}
                             placeholder="Your E-Mail Address"
+                            value={this.state.controls.email.value}
+                            onChangeText={value =>
+                                this.updateInputState('email', value)
+                            }
                         />
                         <View
                             style={
@@ -79,6 +142,10 @@ class AuthScreen extends Component {
                                         : styles.landscapePwInput,
                                 ]}
                                 placeholder="Password"
+                                value={this.state.controls.password.value}
+                                onChangeText={value =>
+                                    this.updateInputState('password', value)
+                                }
                             />
                             <DefaultInput
                                 style={[
@@ -88,6 +155,15 @@ class AuthScreen extends Component {
                                         : styles.landscapePwInput,
                                 ]}
                                 placeholder="Confirm Password"
+                                value={
+                                    this.state.controls.confirmPassword.value
+                                }
+                                onChangeText={value =>
+                                    this.updateInputState(
+                                        'confirmPassword',
+                                        value
+                                    )
+                                }
                             />
                         </View>
                     </View>
