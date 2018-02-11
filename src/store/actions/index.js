@@ -1,1 +1,2 @@
-export * from './places.js';
+export * from './places';
+export * from './auth';
