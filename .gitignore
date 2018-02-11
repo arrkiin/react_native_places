@@ -18,6 +18,7 @@ yarn-error.log*
 
 local.properties
 myapp.iml
+app.iml
 
 android/app/build
 android/build
