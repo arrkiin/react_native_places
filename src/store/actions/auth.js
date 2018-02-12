@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 
 export const tryAuth = authData => {
     return {
-        type: TRY_AUTH,
+        type: actionTypes.TRY_AUTH,
         authData: authData,
     };
 };
