@@ -39,6 +39,10 @@ class PickLocation extends Component {
                 locationChosen: true,
             };
         });
+        this.props.onPickLocation({
+            latitude: coord.latitude,
+            longitude: coord.longitude,
+        });
     };
     getLocationHandler = () => {
         navigator.geolocation.getCurrentPosition(

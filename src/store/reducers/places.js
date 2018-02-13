@@ -15,6 +15,7 @@ const reducer = (state = initialState, action) => {
                     image: {
                         uri: 'https://picsum.photos/400/400?image=4',
                     },
+                    location: action.location,
                 }),
             };
         case actionTypes.DELETE_PLACE:
