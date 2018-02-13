@@ -13,7 +13,7 @@ const reducer = (state = initialState, action) => {
                     key: Math.random().toString(),
                     name: action.placeName,
                     image: {
-                        uri: 'https://picsum.photos/400/400?image=4',
+                        uri: action.image.uri,
                     },
                     location: action.location,
                 }),
