@@ -44,6 +44,38 @@ export const addPlace = (placeName, location, image) => {
     };
 };
 
+export const setPlaces = places => {
+    return {
+        type: actionTypes.SET_PLACES,
+        places: places,
+    };
+};
+
+export const getPlaces = () => {
+    return dispatch => {
+        fetch('https://awesome-places-1518441622081.firebaseio.com/places.json')
+            .catch(err => {
+                console.log(err);
+                alert('Something went wrong, please try again!');
+            })
+            .then(res => res.json())
+            .then(parsedRes => {
+                const places = [];
+                for (let key in parsedRes) {
+                    places.push({
+                        ...parsedRes[key],
+                        image: {
+                            uri: parsedRes[key].image,
+                        },
+                        key: key,
+                    });
+                }
+                console.log(parsedRes);
+                dispatch(setPlaces(places));
+            });
+    };
+};
+
 export const deletePlace = key => {
     return {
         type: actionTypes.DELETE_PLACE,
