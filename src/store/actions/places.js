@@ -11,12 +11,12 @@ export const addPlace = (placeName, location, image) => {
                 body: JSON.stringify({ image: image.base64 }),
             }
         )
+            .then(res => res.json())
             .catch(err => {
                 console.log(err);
                 alert('Something went wrong, please try again!');
                 dispatch(actions.uiStopLoading());
             })
-            .then(res => res.json())
             .then(parsedRes => {
                 const placeData = {
                     name: placeName,
@@ -77,8 +77,27 @@ export const getPlaces = () => {
 };
 
 export const deletePlace = key => {
+    return dispatch => {
+        dispatch(removePlace(key));
+        fetch(
+            'https://awesome-places-1518441622081.firebaseio.com/places/' +
+                key +
+                '.json',
+            {
+                method: 'DELETE',
+            }
+        )
+            .then(res => res.json())
+            .catch(err => console.log(err))
+            .then(parsedRes => {
+                console.log('Done!');
+            });
+    };
+};
+
+export const removePlace = key => {
     return {
-        type: actionTypes.DELETE_PLACE,
+        type: actionTypes.REMOVE_PLACE,
         key: key,
     };
 };
