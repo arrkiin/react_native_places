@@ -31,15 +31,17 @@ exports.storeImage = functions.https.onRequest((request, response) => {
                 uploadType: 'media',
                 destination: '/places/' + uuid + '.jpg',
                 metadata: {
-                    contentType: 'image/jpeg',
-                    firebaseStorageDownloadTokens: uuid,
+                    metadata: {
+                        contentType: 'image/jpeg',
+                        firebaseStorageDownloadTokens: uuid,
+                    },
                 },
             },
             (err, file) => {
                 if (!err) {
                     response.status(201).json({
                         imageUrl:
-                            'https://firebasestorage.googleapis.com/v0/b' +
+                            'https://firebasestorage.googleapis.com/v0/b/' +
                             bucket.name +
                             '/o/' +
                             encodeURIComponent(file.name) +

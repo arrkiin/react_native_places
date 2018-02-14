@@ -7,6 +7,7 @@ import {
     StyleSheet,
     ScrollView,
     Image,
+    ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -109,6 +110,20 @@ class SharePlaceScreen extends Component {
         );
     };
     render() {
+        let submitButton = (
+            <Button
+                title="Share the Place!"
+                onPress={this.placeAddedHandler}
+                disabled={
+                    !this.state.controls.placeName.valid ||
+                    !this.state.controls.location.valid ||
+                    !this.state.controls.image.valid
+                }
+            />
+        );
+        if (this.props.isLoading) {
+            submitButton = <ActivityIndicator />;
+        }
         return (
             <ScrollView>
                 <View style={styles.container}>
@@ -123,17 +138,7 @@ class SharePlaceScreen extends Component {
                             this.placeNameChangedHandler('placeName', value)
                         }
                     />
-                    <View style={styles.button}>
-                        <Button
-                            title="Share the Place!"
-                            onPress={this.placeAddedHandler}
-                            disabled={
-                                !this.state.controls.placeName.valid ||
-                                !this.state.controls.location.valid ||
-                                !this.state.controls.image.valid
-                            }
-                        />
-                    </View>
+                    <View style={styles.button}>{submitButton}</View>
                 </View>
             </ScrollView>
         );
@@ -161,6 +166,12 @@ const styles = StyleSheet.create({
     },
 });
 
+const mapStateToProps = state => {
+    return {
+        isLoading: state.ui.isLoading,
+    };
+};
+
 const mapDispatchToProps = dispatch => {
     return {
         onAddPlace: (placeName, location, image) =>
@@ -168,4 +179,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(SharePlaceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SharePlaceScreen);
