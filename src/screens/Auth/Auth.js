@@ -63,6 +63,9 @@ class AuthScreen extends Component {
     componentWillUnmount() {
         Dimensions.removeEventListener('change', this.updateStyles);
     }
+    componentDidMount() {
+        this.props.onAutoSignIn();
+    }
     switchAuthModeHandler = () => {
         this.setState(prevState => {
             return {
@@ -276,6 +279,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onTryAuth: (authData, authMode) =>
             dispatch(actions.tryAuth(authData, authMode)),
+        onAutoSignIn: () => dispatch(actions.authAutoSignIn()),
     };
 };
 
