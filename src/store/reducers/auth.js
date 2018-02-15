@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     token: null,
+    expiryDate: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,11 +11,13 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 token: action.token,
+                expiryDate: action.expiryDate,
             };
         case actionTypes.AUTH_REMOVE_TOKEN:
             return {
                 ...state,
                 token: null,
+                expiryDate: null,
             };
         default:
             return state;
