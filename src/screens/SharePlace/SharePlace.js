@@ -32,6 +32,12 @@ class SharePlaceScreen extends Component {
     componentWillMount() {
         this.reset();
     }
+    componentDidUpdate() {
+        if (this.props.placeAdded) {
+            this.props.navigator.switchToTab({ tabIndex: 0 });
+            // this.props.onStartAddPlace();
+        }
+    }
     reset = () => {
         this.setState({
             controls: {
@@ -55,6 +61,11 @@ class SharePlaceScreen extends Component {
         });
     };
     onNavigatorEvent = event => {
+        if (event.type === 'ScreenChangedEvent') {
+            if (event.id === 'willAppear') {
+                this.props.onStartAddPlace();
+            }
+        }
         if (event.type === 'NavBarButtonPress') {
             if (event.id === 'sideDrawerToggle') {
                 this.props.navigator.toggleDrawer({
@@ -117,6 +128,7 @@ class SharePlaceScreen extends Component {
         this.reset();
         this.imagePicker.reset();
         this.locationPicker.reset();
+        // this.props.navigator.switchToTab({ tabIndex: 0 });
     };
     render() {
         let submitButton = (
@@ -184,6 +196,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         isLoading: state.ui.isLoading,
+        placeAdded: state.places.placeAdded,
     };
 };
 
@@ -191,6 +204,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onAddPlace: (placeName, location, image) =>
             dispatch(actions.addPlace(placeName, location, image)),
+        onStartAddPlace: () => dispatch(actions.startAddPlace()),
     };
 };
 

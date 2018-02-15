@@ -45,6 +45,7 @@ export const addPlace = (placeName, location, image) => {
             .then(parsedRes => {
                 console.log(parsedRes);
                 dispatch(actions.uiStopLoading());
+                dispatch(actions.placeAdded());
             })
             .catch(err => {
                 console.log(err);
@@ -58,6 +59,18 @@ export const setPlaces = places => {
     return {
         type: actionTypes.SET_PLACES,
         places: places,
+    };
+};
+
+export const startAddPlace = () => {
+    return {
+        type: actionTypes.START_ADD_PLACE,
+    };
+};
+
+export const placeAdded = () => {
+    return {
+        type: actionTypes.PLACE_ADDED,
     };
 };
 
